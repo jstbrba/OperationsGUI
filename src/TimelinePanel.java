@@ -5,45 +5,22 @@ import java.awt.event.ActionListener;
 
 public class TimelinePanel extends JPanel {
 
-    private int day;
-    private int month;
+    private final GUI gui;
 
-    public TimelinePanel() {
-        setLayout(new BorderLayout());
+    public TimelinePanel(GUI gui) {
+        this.gui = gui;
 
-        JLabel title = new JLabel("Timeline");
-        title.setHorizontalAlignment(SwingConstants.CENTER);
-        add(title, BorderLayout.NORTH);
+        setLayout(null);
+        setBounds(0,180,1080,360);
 
-        JPanel roomsPanel = new JPanel();
-        roomsPanel.setLayout(new BoxLayout(roomsPanel, BoxLayout.Y_AXIS));
+        JButton exit = new JButton("Exit");
+        exit.setBounds(0,0,40,40);
+        add(exit);
 
-        roomsPanel.add(createRoomTimeline("Main Hall"));
-        roomsPanel.add(createRoomTimeline("Small Hall"));
-        roomsPanel.add(createRoomTimeline("Meeting Room 1"));
-        roomsPanel.add(createRoomTimeline("Meeting Room 2"));
-        roomsPanel.add(createRoomTimeline("Meeting Room 3"));
-        roomsPanel.add(createRoomTimeline("Meeting Room 4"));
-        roomsPanel.add(createRoomTimeline("Meeting Room 5"));
-
-        JScrollPane scroll = new JScrollPane(roomsPanel);
-        add(scroll, BorderLayout.CENTER);
-
-        JButton exitButton = new JButton("Exit");
-        exitButton.addActionListener(e -> {
-            System.out.println("Exit attempt");
-            ((CardLayout) getParent().getLayout()).show(getParent(), "Calendar");
+        exit.addActionListener(e -> {
+            gui.remove(TimelinePanel.this);
+            gui.repaint();
+            gui.getCalendarPanel().noLongerVisible();
         });
-        add(exitButton, BorderLayout.SOUTH);
-    }
-
-    private JPanel createRoomTimeline(String room){
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
-        panel.add(new JLabel(room + " Events for Day " + day));
-        panel.add(new JLabel("9:00 AM - Event 1 in " + room));
-
-        return panel;
     }
 }
