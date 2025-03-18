@@ -8,6 +8,8 @@ public class GUI extends JFrame {
 
     private final ImageIcon logo = new ImageIcon("src/assets/cblooded1.jpeg");
     private final CalendarPanel calendarPanel;
+    public static final Color backgroundColor = new Color(18,32,35);
+    public static final Color accentColor = new Color(46,204,65);
 
     public GUI() {
         setTitle("Operations Calendar");
@@ -15,7 +17,7 @@ public class GUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setIconImage(logo.getImage());
-        getContentPane().setBackground(new Color(128, 0, 32));
+        getContentPane().setBackground(backgroundColor);
 
         setLayout(null);
 
