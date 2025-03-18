@@ -15,7 +15,7 @@ public class CalendarPanel extends JPanel {
         setLayout(new GridLayout(4,7));
 
         for (int day = 1; day <= 28; day++) {
-            add(new DayPanel(1,day));
+            add(new DayPanel(day,3));
         }
     }
     private class DayPanel extends JPanel {
@@ -28,7 +28,7 @@ public class CalendarPanel extends JPanel {
 
             this.day = day;
             this.month = month;
-            timelinePanel = new TimelinePanel(gui);
+            timelinePanel = new TimelinePanel(gui,day,month);
 
             setBackground(Color.WHITE);
             setBorder(BorderFactory.createLineBorder(Color.black));
