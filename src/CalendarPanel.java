@@ -5,6 +5,7 @@ import java.awt.event.MouseEvent;
 
 public class CalendarPanel extends JPanel {
     private final GUI gui;
+    private final DayPanel[] days = new DayPanel[28];
 
     private boolean timelineVisible = false;
 
@@ -15,7 +16,9 @@ public class CalendarPanel extends JPanel {
         setLayout(new GridLayout(4,7));
 
         for (int day = 1; day <= 28; day++) {
-            add(new DayPanel(day,3));
+            DayPanel newDay = (new DayPanel(day,3));
+            add(newDay);
+            days[day - 1] = newDay;
         }
     }
     private class DayPanel extends JPanel {
@@ -65,5 +68,10 @@ public class CalendarPanel extends JPanel {
     }
     public void noLongerVisible() {
         timelineVisible = false;
+    }
+    public void repaintDays() {
+        for (DayPanel day : days) {
+            day.setBackground(Color.WHITE);
+        }
     }
 }

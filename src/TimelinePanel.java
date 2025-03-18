@@ -33,6 +33,7 @@ public class TimelinePanel extends JPanel {
             gui.remove(TimelinePanel.this);
             gui.repaint();
             gui.getCalendarPanel().noLongerVisible();
+            gui.getCalendarPanel().repaintDays();
         });
     }
 
