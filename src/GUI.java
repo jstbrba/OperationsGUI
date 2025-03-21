@@ -16,11 +16,18 @@ public class GUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setIconImage(logo.getImage());
-        getContentPane().setBackground(backgroundColor);
+        getContentPane().setBackground(backgroundColor.darker());
 
         setLayout(null);
 
+        JLabel title = new JLabel("Calendar");
+        title.setForeground(Color.WHITE);
+        title.setFont(new Font("SansSerif", Font.PLAIN, 30));
+        title.setBounds(40, 0, 300, 40);
+        add(title);
+
         calendarPanel = new CalendarPanel(this);
+        calendarPanel.setBounds(40,40,getWidth()-80,getHeight()-120);
         add(calendarPanel);
 
         JButton menuButton = new JButton("Menu");

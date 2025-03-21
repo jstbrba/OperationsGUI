@@ -17,8 +17,7 @@ public class TimelinePanel extends JPanel {
         setLayout(null);
         setBounds(0,90,1080,gui.getHeight()-125);
 
-        setBackground(Color.DARK_GRAY);
-        setBorder(BorderFactory.createLineBorder(GUI.backgroundColor));
+        setBackground(GUI.backgroundColor);
 
         JPanel viewerPanel = new JPanel();
         viewerPanel.setLayout(null);

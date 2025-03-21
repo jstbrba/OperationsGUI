@@ -13,7 +13,7 @@ public class CalendarPanel extends JPanel {
     public CalendarPanel(GUI gui) {
         this.gui = gui;
         //setSize(800, 600);
-        setBounds(40,40, gui.getWidth()-100, gui.getHeight()-120);
+        //setBounds(40,40, gui.getWidth()-100, gui.getHeight()-120);
         setLayout(new GridLayout(4,7));
 
         for (int day = 1; day <= 28; day++) {
@@ -40,7 +40,7 @@ public class CalendarPanel extends JPanel {
 
             JLabel dayLabel = new JLabel(day + "/" + month);
             dayLabel.setForeground(Color.WHITE);
-            add(dayLabel, BorderLayout.CENTER);
+            add(dayLabel, BorderLayout.NORTH);
 
             addMouseListener(new MouseAdapter() {
                 @Override
