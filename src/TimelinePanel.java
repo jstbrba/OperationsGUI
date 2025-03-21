@@ -17,8 +17,8 @@ public class TimelinePanel extends JPanel {
         setLayout(null);
         setBounds(0,180,1080,360);
 
-        setBackground(GUI.backgroundColor);
-        setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+        setBackground(Color.DARK_GRAY);
+        setBorder(BorderFactory.createLineBorder(GUI.backgroundColor));
 
         JLabel title = new JLabel(day + " " + monthName, SwingConstants.CENTER);
         title.setBounds(10,10,200,30);
@@ -29,12 +29,43 @@ public class TimelinePanel extends JPanel {
         exit.setBounds(0,0,40,40);
         add(exit);
 
+        JPanel timelineStack = new JPanel();
+        timelineStack.setLayout(new BoxLayout(timelineStack, BoxLayout.Y_AXIS));
+
+        timelineStack.add(createTimeline("Main hall"));
+        timelineStack.add(createTimeline("Small Hall"));
+        timelineStack.add(createTimeline("Meeting Room"));
+
+        JScrollPane scroll = new JScrollPane(timelineStack);
+        scroll.setBounds(40,50,gui.getWidth()-100,260);
+        scroll.setBorder(BorderFactory.createLineBorder(GUI.accentColor));
+        add(scroll);
+
         exit.addActionListener(e -> {
             gui.remove(TimelinePanel.this);
             gui.repaint();
-            gui.getCalendarPanel().noLongerVisible();
+            gui.getCalendarPanel().unpause();
             gui.getCalendarPanel().repaintDays();
         });
+    }
+
+    private JPanel createTimeline(String roomName){
+        JPanel roomTimeline = new JPanel();
+        roomTimeline.setLayout(new BoxLayout(roomTimeline, BoxLayout.X_AXIS));
+        roomTimeline.setBackground(Color.BLUE);
+
+        JLabel roomNameLabel = new JLabel(roomName);
+        roomNameLabel.setForeground(Color.WHITE);
+        roomTimeline.add(roomNameLabel);
+
+        for (int i = 1; i <= 5; i++) {  // Example 5 events for each room
+            JPanel eventPanel = new JPanel();
+            eventPanel.setBackground(Color.CYAN);
+            eventPanel.setPreferredSize(new Dimension(1040, 50));  // Event height
+            eventPanel.add(new JLabel("Event " + i));
+            roomTimeline.add(eventPanel);
+        }
+        return roomTimeline;
     }
 
     private static String getMonthName(int month) {
