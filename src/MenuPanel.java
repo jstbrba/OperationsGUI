@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MenuPanel extends JPanel {
     private final GUI gui;
@@ -36,11 +38,36 @@ public class MenuPanel extends JPanel {
 
         String[] menuItems = {"Profile","Settings","History","Finance Tracker","Logout"};
         for (int i = 0; i < menuItems.length; i++) {
-            JLabel menuItemLabel = new JLabel(menuItems[i]);
-            menuItemLabel.setBounds(20,100 + i * 30,width-40,30);
-            menuItemLabel.setFont(new Font("SansSerif", Font.PLAIN, 15));
-            menuItemLabel.setForeground(Color.white);
-            add(menuItemLabel);
+            MenuItem menuItem = new MenuItem(menuItems[i]);
+            menuItem.setBounds(10,100 + 30 * i,width-20,30);
+            menuItem.setPreferredSize(new Dimension(width,40));
+            add(menuItem);
+        }
+    }
+    private class MenuItem extends JLabel {
+        public MenuItem(String item) {
+            super(item);
+
+            setText(item);
+            setFont(new Font("SansSerif", Font.PLAIN, 15));
+            setForeground(Color.white);
+
+            addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    super.mouseClicked(e);
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    setForeground(GUI.accentColor);
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    setForeground(Color.white);
+                }
+            });
         }
     }
 }
