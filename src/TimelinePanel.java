@@ -15,31 +15,61 @@ public class TimelinePanel extends JPanel {
         String monthName = getMonthName(month);
 
         setLayout(null);
-        setBounds(0,180,1080,360);
+        setBounds(0,90,1080,gui.getHeight()-125);
 
         setBackground(Color.DARK_GRAY);
         setBorder(BorderFactory.createLineBorder(GUI.backgroundColor));
 
-        JLabel title = new JLabel(day + " " + monthName, SwingConstants.CENTER);
-        title.setBounds(10,10,200,30);
-        title.setForeground(Color.WHITE);
-        add(title);
+        JPanel viewerPanel = new JPanel();
+        viewerPanel.setLayout(null);
+        viewerPanel.setBounds(gui.getWidth()/4,30,gui.getWidth()/2,gui.getHeight()/3);
+        viewerPanel.setBackground(Color.WHITE);
+        add(viewerPanel);
 
+        // ROOM NAMES
+        JPanel roomNamesPanel = new JPanel();
+        roomNamesPanel.setLayout(null);
+        roomNamesPanel.setBackground(Color.LIGHT_GRAY);
+        roomNamesPanel.setBounds(10,gui.getHeight()/3 + 80, 80, gui.getHeight()/3);
+
+        String[] roomNames = {"Main","Small","Rehearsal","M1","M2","M3","M4","M5"};
+        for (int i = 0; i < roomNames.length; i++) {
+            JLabel roomName = new JLabel(roomNames[i], SwingConstants.CENTER);
+            roomName.setBounds(0,i*(gui.getHeight()/24), 80, gui.getHeight()/24);
+            roomNamesPanel.add(roomName);
+        }
+        add(roomNamesPanel);
+
+        // EVENT SCHEDULES
+        int esWidth = gui.getWidth()-140;
+        JPanel eventSchedulePanel = new JPanel();
+        eventSchedulePanel.setLayout(new BoxLayout(eventSchedulePanel, BoxLayout.Y_AXIS));
+        eventSchedulePanel.setBounds(90,gui.getHeight()/3 + 80 ,esWidth,gui.getHeight()/3);
+        eventSchedulePanel.setBackground(Color.WHITE);
+        add(eventSchedulePanel);
+
+        String[] times = {"10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00","00:00"};
+        for (int i = 0; i < times.length; i++) {
+            JLabel time = new JLabel(times[i], SwingConstants.CENTER);
+            time.setForeground(Color.WHITE);
+            time.setBounds(90 + i * esWidth/14,gui.getHeight()/3 + 55, 30, 30);
+            add(time);
+
+            JPanel divider = new JPanel();
+            divider.setBackground(Color.LIGHT_GRAY);
+            divider.setBounds(i * esWidth/14,0,1,gui.getHeight()/3);
+            eventSchedulePanel.add(divider);
+        }
+        JPanel closedPanel = new JPanel();
+        closedPanel.setBounds(90+esWidth, gui.getHeight()/3 + 80, 140, gui.getHeight()/3);
+        closedPanel.setBackground(Color.LIGHT_GRAY);
+        add(closedPanel);
+
+
+        // EXIT BUTTON
         JButton exit = new JButton("Exit");
-        exit.setBounds(0,0,40,40);
+        exit.setBounds(0,0,20,20);
         add(exit);
-
-        JPanel timelineStack = new JPanel();
-        timelineStack.setLayout(new BoxLayout(timelineStack, BoxLayout.Y_AXIS));
-
-        timelineStack.add(createTimeline("Main hall"));
-        timelineStack.add(createTimeline("Small Hall"));
-        timelineStack.add(createTimeline("Meeting Room"));
-
-        JScrollPane scroll = new JScrollPane(timelineStack);
-        scroll.setBounds(40,50,gui.getWidth()-100,260);
-        scroll.setBorder(BorderFactory.createLineBorder(GUI.accentColor));
-        add(scroll);
 
         exit.addActionListener(e -> {
             gui.remove(TimelinePanel.this);
@@ -47,25 +77,6 @@ public class TimelinePanel extends JPanel {
             gui.getCalendarPanel().unpause();
             gui.getCalendarPanel().repaintDays();
         });
-    }
-
-    private JPanel createTimeline(String roomName){
-        JPanel roomTimeline = new JPanel();
-        roomTimeline.setLayout(new BoxLayout(roomTimeline, BoxLayout.X_AXIS));
-        roomTimeline.setBackground(Color.BLUE);
-
-        JLabel roomNameLabel = new JLabel(roomName);
-        roomNameLabel.setForeground(Color.WHITE);
-        roomTimeline.add(roomNameLabel);
-
-        for (int i = 1; i <= 5; i++) {  // Example 5 events for each room
-            JPanel eventPanel = new JPanel();
-            eventPanel.setBackground(Color.CYAN);
-            eventPanel.setPreferredSize(new Dimension(1040, 50));  // Event height
-            eventPanel.add(new JLabel("Event " + i));
-            roomTimeline.add(eventPanel);
-        }
-        return roomTimeline;
     }
 
     private static String getMonthName(int month) {
