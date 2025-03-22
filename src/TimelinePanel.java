@@ -16,6 +16,10 @@ public class TimelinePanel extends JPanel {
 
         setLayout(null);
         setBounds(0,90,1080,gui.getHeight()-125);
+        JLabel dayLabel = new JLabel(day + " " + monthName);
+        dayLabel.setBounds(30,0,80,30);
+        dayLabel.setForeground(Color.WHITE);
+        add(dayLabel);
 
         setBackground(GUI.backgroundColor);
 

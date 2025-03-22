@@ -6,6 +6,7 @@ public class GUI extends JFrame {
     private final ImageIcon logo = new ImageIcon("src/assets/cblooded1.jpeg");
     private final CalendarPanel calendarPanel;
     private final MenuPanel menuPanel;
+    private final MenuUI menuUI;
     private boolean menuPanelVisible = false;
     public static final Color backgroundColor = new Color(18,32,35);
     public static final Color accentColor = new Color(46,204,65);
@@ -33,6 +34,10 @@ public class GUI extends JFrame {
         JButton menuButton = new JButton("Menu");
         menuButton.setBounds(0,0,20,20);
         add(menuButton);
+
+        menuUI = new MenuUI();
+        menuUI.setBounds(getWidth()/3,20,getWidth()*2/3,getHeight()-40);
+        add(menuUI);
         menuPanel = new MenuPanel(this);
 
         menuButton.addActionListener(e -> {
@@ -44,13 +49,19 @@ public class GUI extends JFrame {
             } else {
                 remove(menuPanel);
                 calendarPanel.unpause();
-                repaint();
                 calendarPanel.repaintDays();
                 menuPanelVisible = false;
+                if (menuUI.isVisible()){
+                    menuUI.changeVisibility(false);
+                }
+                repaint();
             }
         });
     }
     public CalendarPanel getCalendarPanel() {
         return calendarPanel;
+    }
+    public MenuUI getMenuUI() {
+        return menuUI;
     }
 }

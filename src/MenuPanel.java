@@ -43,6 +43,7 @@ public class MenuPanel extends JPanel {
             menuItem.setPreferredSize(new Dimension(width,40));
             add(menuItem);
         }
+
     }
     private class MenuItem extends JLabel {
         public MenuItem(String item) {
@@ -55,7 +56,9 @@ public class MenuPanel extends JPanel {
             addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    super.mouseClicked(e);
+                    gui.getMenuUI().changeCard(item.toLowerCase());
+                    gui.getMenuUI().changeVisibility(true);
+                    gui.getMenuUI().repaint();
                 }
 
                 @Override
