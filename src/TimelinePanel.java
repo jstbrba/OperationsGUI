@@ -7,10 +7,16 @@ public class TimelinePanel extends JPanel {
     private final int day;
     private final int month;
 
+    private final int eventHeight;
+    private final int esWidth;
+
     public TimelinePanel(GUI gui, int day, int month) {
         this.gui = gui;
         this.day = day;
         this.month = month;
+
+        eventHeight = gui.getHeight()/24;
+        esWidth = gui.getWidth()-140;
 
         String monthName = getMonthName(month);
 
@@ -40,16 +46,21 @@ public class TimelinePanel extends JPanel {
             JLabel roomName = new JLabel(roomNames[i], SwingConstants.CENTER);
             roomName.setBounds(0,i*(gui.getHeight()/24), 80, gui.getHeight()/24);
             roomNamesPanel.add(roomName);
+
         }
         add(roomNamesPanel);
 
         // EVENT SCHEDULES
-        int esWidth = gui.getWidth()-140;
         JPanel eventSchedulePanel = new JPanel();
         eventSchedulePanel.setLayout(new BoxLayout(eventSchedulePanel, BoxLayout.Y_AXIS));
         eventSchedulePanel.setBounds(90,gui.getHeight()/3 + 80 ,esWidth,gui.getHeight()/3);
         eventSchedulePanel.setBackground(Color.WHITE);
         add(eventSchedulePanel);
+
+        // EVENTS
+        EventPanel eventPanel = new EventPanel(this);
+        eventPanel.setBounds(1,0 ,esWidth,eventHeight);
+        eventSchedulePanel.add(eventPanel);
 
         String[] times = {"10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00","00:00"};
         for (int i = 0; i < times.length; i++) {
@@ -99,5 +110,11 @@ public class TimelinePanel extends JPanel {
             case 12: monthName = "December"; break;
         }
         return monthName;
+    }
+    public int getEventHeight() {
+        return eventHeight;
+    }
+    public int getEsWidth() {
+        return esWidth;
     }
 }

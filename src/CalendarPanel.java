@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.LocalDate;
 
 public class CalendarPanel extends JPanel {
     private final GUI gui;
@@ -16,10 +17,12 @@ public class CalendarPanel extends JPanel {
         //setBounds(40,40, gui.getWidth()-100, gui.getHeight()-120);
         setLayout(new GridLayout(4,7));
 
-        for (int day = 1; day <= 28; day++) {
-            DayPanel newDay = (new DayPanel(day,3));
-            add(newDay);
-            days[day - 1] = newDay;
+        LocalDate today = LocalDate.now();
+        for (int i = 0; i < 28; i++) {
+            DayPanel day = new DayPanel(today.getDayOfMonth(),today.getMonthValue());
+            days[i] = day;
+            add(day);
+            today = today.plusDays(1);
         }
     }
     private class DayPanel extends JPanel {
