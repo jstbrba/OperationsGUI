@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class GUI extends JFrame {
 
@@ -10,6 +12,8 @@ public class GUI extends JFrame {
     private boolean menuPanelVisible = false;
     public static final Color backgroundColor = new Color(18,32,35);
     public static final Color accentColor = new Color(46,204,65);
+
+    private Timer timer;
 
     public GUI() {
         setTitle("Operations Calendar");
@@ -39,18 +43,16 @@ public class GUI extends JFrame {
         menuUI.setBounds(getWidth()/3,20,getWidth()*2/3,getHeight()-40);
         add(menuUI);
         menuPanel = new MenuPanel(this);
+        menuPanel.setBounds(-getWidth()/4,0,getWidth()/4,getHeight());
+        add(menuPanel);
 
         menuButton.addActionListener(e -> {
+            toggleMenuPanel();
             if (!menuPanelVisible && !calendarPanel.isPaused()) {
                 calendarPanel.pause();
-                add(menuPanel);
                 menuPanel.repaint();
-                menuPanelVisible = true;
             } else {
-                remove(menuPanel);
                 calendarPanel.unpause();
-                calendarPanel.repaintDays();
-                menuPanelVisible = false;
                 if (menuUI.isVisible()){
                     menuUI.changeVisibility(false);
                 }
@@ -63,5 +65,30 @@ public class GUI extends JFrame {
     }
     public MenuUI getMenuUI() {
         return menuUI;
+    }
+
+    public void toggleMenuPanel() {
+        int targetX = menuPanelVisible ? -getWidth()/4 : 0;
+        int step = menuPanelVisible ? -45 : 45;
+
+        getContentPane().setComponentZOrder(menuPanel, 0);
+        revalidate();
+        repaint();
+
+        timer = new Timer(10, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int x = menuPanel.getX();
+                if ((step > 0 && x >= targetX) || (step < 0 && x <= targetX)) {
+                    timer.stop();
+                    menuPanelVisible = !menuPanelVisible;
+                } else {
+                    menuPanel.setLocation(x + step, 0);
+                    repaint();
+                    System.out.println(menuPanelVisible);
+                }
+            }
+        });
+        timer.start();
     }
 }
