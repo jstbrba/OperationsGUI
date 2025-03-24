@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class TimelinePanel extends JPanel {
 
@@ -21,7 +23,8 @@ public class TimelinePanel extends JPanel {
         String monthName = getMonthName(month);
 
         setLayout(null);
-        setBounds(0,90,1080,gui.getHeight()-125);
+        setBounds(0,90, gui.getWidth(), gui.getHeight()-125);
+        setFocusable(true);
         JLabel dayLabel = new JLabel(day + " " + monthName);
         dayLabel.setBounds(30,0,80,30);
         dayLabel.setForeground(Color.WHITE);
@@ -52,7 +55,7 @@ public class TimelinePanel extends JPanel {
 
         // EVENT SCHEDULES
         JPanel eventSchedulePanel = new JPanel();
-        eventSchedulePanel.setLayout(new BoxLayout(eventSchedulePanel, BoxLayout.Y_AXIS));
+        eventSchedulePanel.setLayout(null);
         eventSchedulePanel.setBounds(90,gui.getHeight()/3 + 80 ,esWidth,gui.getHeight()/3);
         eventSchedulePanel.setBackground(Color.WHITE);
         add(eventSchedulePanel);
@@ -60,7 +63,7 @@ public class TimelinePanel extends JPanel {
         // EVENTS
         EventPanel eventPanel = new EventPanel(this);
         eventPanel.setBounds(1,0 ,esWidth,eventHeight);
-        eventSchedulePanel.add(eventPanel);
+        eventSchedulePanel.add(eventPanel);;
 
         String[] times = {"10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00","00:00"};
         for (int i = 0; i < times.length; i++) {
@@ -81,16 +84,22 @@ public class TimelinePanel extends JPanel {
 
 
         // EXIT BUTTON
-        JButton exit = new JButton("Exit");
+        JPanel exit = new JPanel();
         exit.setBounds(0,0,20,20);
-        add(exit);
-
-        exit.addActionListener(e -> {
-            gui.remove(TimelinePanel.this);
-            gui.repaint();
-            gui.getCalendarPanel().unpause();
-            gui.getCalendarPanel().repaintDays();
+        exit.setBackground(Color.WHITE);
+        exit.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (gui.getCalendarPanel().isPaused()) {
+                    gui.remove(TimelinePanel.this);
+                    gui.setComponentZOrder(TimelinePanel.this, 1);
+                    gui.repaint();
+                    gui.getCalendarPanel().unpause();
+                    gui.getCalendarPanel().repaintDays();
+                }
+            }
         });
+        add(exit);
     }
 
     private static String getMonthName(int month) {

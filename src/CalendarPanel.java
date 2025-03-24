@@ -50,6 +50,7 @@ public class CalendarPanel extends JPanel {
                 public void mouseClicked(MouseEvent e) {
                     if (!isPaused) {
                         gui.add(timelinePanel);
+                        gui.setComponentZOrder(timelinePanel,0);
                         timelinePanel.repaint();
                         pause();
                     }

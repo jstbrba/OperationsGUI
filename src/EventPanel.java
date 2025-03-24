@@ -18,6 +18,8 @@ public class EventPanel extends JPanel {
         events = new ArrayList<>();
         setLayout(null);
         setBackground(Color.WHITE);
+        setFocusable(true);
+        setPreferredSize(new Dimension(tp.getEsWidth(), tp.getEventHeight()));
         // Code to get events by date and room
 
         //------------------------------------
@@ -33,8 +35,11 @@ public class EventPanel extends JPanel {
         for (Event e : events) {
             EventItem eventItem = new EventItem(e);
             eventItem.setBounds(e.getTimeAsInt() * tp.getEsWidth()/14,tp.getEventHeight()/4,e.getDurationAsInt() * tp.getEsWidth()/14, tp.getEventHeight()/2);
+            setComponentZOrder(eventItem,0);
             add(eventItem);
         }
+        revalidate();
+        repaint();
     }
     private class EventItem extends JPanel {
         private Event event;
@@ -43,6 +48,8 @@ public class EventPanel extends JPanel {
             this.event = event;
 
             setBackground(GUI.accentColor);
+            setOpaque(true);
+            setFocusable(true);
 
             addMouseListener(new MouseAdapter() {
                 @Override
